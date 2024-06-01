@@ -1,0 +1,27 @@
+[gd_scene load_steps=4 format=3 uid="uid://csl7ftmatumnb"]
+
+[ext_resource type="Script" path="res://title_screen.gd" id="1_fh814"]
+[ext_resource type="Texture2D" uid="uid://dh86gwgqlkaiy" path="res://Sprites/InFact. Background.png" id="2_ewksv"]
+
+[sub_resource type="SphereMesh" id="SphereMesh_mk6hv"]
+
+[node name="Title Screen" type="Node2D"]
+script = ExtResource("1_fh814")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(667, 297)
+texture = ExtResource("2_ewksv")
+
+[node name="Button" type="Button" parent="."]
+offset_left = 587.0
+offset_top = 539.0
+offset_right = 795.0
+offset_bottom = 580.0
+text = "Play"
+
+[node name="MeshInstance2D" type="MeshInstance2D" parent="."]
+position = Vector2(1316.42, 458.625)
+scale = Vector2(21.1934, 21.25)
+mesh = SubResource("SphereMesh_mk6hv")
+
+[connection signal="pressed" from="Button" to="." method="_on_button_pressed"]

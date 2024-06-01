@@ -1,0 +1,29 @@
+[gd_scene load_steps=5 format=3 uid="uid://cytslstvgh78i"]
+
+[ext_resource type="Script" path="res://ball.gd" id="1_rhnln"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_mp8rw"]
+
+[sub_resource type="SphereMesh" id="SphereMesh_o48s8"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_ve58x"]
+radius = 12.0416
+
+[node name="Ball" type="AnimatableBody2D"]
+script = ExtResource("1_rhnln")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_mp8rw")
+
+[node name="MeshInstance2D" type="MeshInstance2D" parent="CollisionShape2D"]
+position = Vector2(2.38419e-07, 2.38419e-06)
+scale = Vector2(20.0227, 20)
+mesh = SubResource("SphereMesh_o48s8")
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("CircleShape2D_ve58x")
+
+[connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]
+[connection signal="body_exited" from="Area2D" to="." method="_on_area_2d_body_exited"]

@@ -1,0 +1,155 @@
+[gd_scene load_steps=9 format=3 uid="uid://cssnl8wmbeu7r"]
+
+[ext_resource type="PackedScene" uid="uid://cytslstvgh78i" path="res://ball.tscn" id="1_fwfaf"]
+[ext_resource type="Script" path="res://main.gd" id="1_nce6o"]
+[ext_resource type="PackedScene" uid="uid://0y7jvfciyu8x" path="res://box.tscn" id="2_si7h6"]
+[ext_resource type="Texture2D" uid="uid://dh86gwgqlkaiy" path="res://Sprites/InFact. Background.png" id="4_0tns5"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_o68rc"]
+size = Vector2(2101, 240)
+
+[sub_resource type="Shader" id="Shader_17lr2"]
+code = "// NOTE: Shader automatically converted from Godot Engine 4.1.3.stable's StandardMaterial3D.
+
+shader_type spatial;
+render_mode blend_mix,depth_draw_opaque,cull_back,diffuse_burley,specular_schlick_ggx;
+uniform vec4 albedo : source_color;
+uniform sampler2D texture_albedo : source_color,filter_linear_mipmap,repeat_enable;
+uniform float point_size : hint_range(0,128);
+uniform float roughness : hint_range(0,1);
+uniform sampler2D texture_metallic : hint_default_white,filter_linear_mipmap,repeat_enable;
+uniform vec4 metallic_texture_channel;
+uniform sampler2D texture_roughness : hint_roughness_r,filter_linear_mipmap,repeat_enable;
+uniform float specular;
+uniform float metallic;
+uniform sampler2D texture_emission : source_color, hint_default_black,filter_linear_mipmap,repeat_enable;
+uniform vec4 emission : source_color;
+uniform float emission_energy;
+uniform vec3 uv1_scale;
+uniform vec3 uv1_offset;
+uniform vec3 uv2_scale;
+uniform vec3 uv2_offset;
+
+
+void vertex() {
+	UV=UV*uv1_scale.xy+uv1_offset.xy;
+}
+
+
+
+
+
+
+void fragment() {
+	vec2 base_uv = UV;
+	vec4 albedo_tex = texture(texture_albedo,base_uv);
+	ALBEDO = albedo.rgb * albedo_tex.rgb;
+	float metallic_tex = dot(texture(texture_metallic,base_uv),metallic_texture_channel);
+	METALLIC = metallic_tex * metallic;
+	vec4 roughness_texture_channel = vec4(1.0,0.0,0.0,0.0);
+	float roughness_tex = dot(texture(texture_roughness,base_uv),roughness_texture_channel);
+	ROUGHNESS = roughness_tex * roughness;
+	SPECULAR = specular;
+	vec3 emission_tex = texture(texture_emission,base_uv).rgb;
+	EMISSION = (emission.rgb*emission_tex)*emission_energy;
+}
+"
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_8nejq"]
+render_priority = 0
+shader = SubResource("Shader_17lr2")
+shader_parameter/albedo = Color(0.184314, 0.184314, 0.184314, 1)
+shader_parameter/point_size = 1.0
+shader_parameter/roughness = 1.0
+shader_parameter/metallic_texture_channel = null
+shader_parameter/specular = 0.5
+shader_parameter/metallic = 0.0
+shader_parameter/emission = Color(0.203922, 0.203922, 0.203922, 1)
+shader_parameter/emission_energy = 16.0
+shader_parameter/uv1_scale = Vector3(1, 1, 1)
+shader_parameter/uv1_offset = Vector3(0, 0, 0)
+shader_parameter/uv2_scale = Vector3(1, 1, 1)
+shader_parameter/uv2_offset = Vector3(0, 0, 0)
+
+[sub_resource type="BoxMesh" id="BoxMesh_vsxji"]
+material = SubResource("ShaderMaterial_8nejq")
+
+[node name="Main" type="Node2D"]
+script = ExtResource("1_nce6o")
+
+[node name="Floor" type="StaticBody2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Floor"]
+position = Vector2(565.5, 703)
+shape = SubResource("RectangleShape2D_o68rc")
+
+[node name="MeshInstance2D" type="MeshInstance2D" parent="Floor/CollisionShape2D"]
+modulate = Color(0.215686, 0.215686, 0.215686, 1)
+self_modulate = Color(0.592157, 0.592157, 0.592157, 1)
+position = Vector2(-0.5, 0)
+scale = Vector2(2113.5, 237)
+mesh = SubResource("BoxMesh_vsxji")
+
+[node name="Ball" parent="." instance=ExtResource("1_fwfaf")]
+position = Vector2(1314, 459)
+
+[node name="Box" parent="." instance=ExtResource("2_si7h6")]
+top_level = true
+position = Vector2(1070, 502)
+mass = 113.4
+
+[node name="Box2" parent="." instance=ExtResource("2_si7h6")]
+top_level = true
+position = Vector2(1052, 535)
+mass = 113.4
+
+[node name="Box3" parent="." instance=ExtResource("2_si7h6")]
+top_level = true
+position = Vector2(1086, 534)
+mass = 113.4
+
+[node name="Box4" parent="." instance=ExtResource("2_si7h6")]
+top_level = true
+position = Vector2(1036, 567)
+mass = 113.4
+
+[node name="Box5" parent="." instance=ExtResource("2_si7h6")]
+top_level = true
+position = Vector2(1069, 567)
+mass = 113.4
+
+[node name="Box6" parent="." instance=ExtResource("2_si7h6")]
+top_level = true
+position = Vector2(1102, 567)
+mass = 113.4
+
+[node name="Spawn Crate" type="Button" parent="."]
+offset_right = 84.0
+offset_bottom = 23.0
+text = "Spawn Crate"
+
+[node name="Reset" type="Button" parent="."]
+offset_left = 1272.0
+offset_top = 1.0
+offset_right = 1364.0
+offset_bottom = 32.0
+text = "Reset"
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+show_behind_parent = true
+position = Vector2(673, 305)
+texture = ExtResource("4_0tns5")
+
+[node name="Controls" type="RichTextLabel" parent="."]
+offset_left = 2.0
+offset_top = 32.0
+offset_right = 301.0
+offset_bottom = 224.0
+text = "Controls:
+Left Click - Drag Ball (From Anywhere)
+Right Click - Drag Crate
+Middle Click - Drag Every Crate
+E - Lauch Crates At Cursor"
+
+[connection signal="pressed" from="Spawn Crate" to="." method="_on_spawn_crate_pressed"]
+[connection signal="pressed" from="Reset" to="." method="_on_reset_pressed"]

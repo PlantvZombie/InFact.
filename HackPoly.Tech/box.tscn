@@ -1,0 +1,27 @@
+[gd_scene load_steps=4 format=3 uid="uid://0y7jvfciyu8x"]
+
+[ext_resource type="Texture2D" uid="uid://blaw5x6ks5glj" path="res://Sprites/BOX.png" id="1_3gp8e"]
+[ext_resource type="Script" path="res://box.gd" id="1_oqihp"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_dincp"]
+size = Vector2(32, 32)
+
+[node name="Box" type="RigidBody2D"]
+input_pickable = true
+continuous_cd = 2
+max_contacts_reported = 10
+contact_monitor = true
+linear_damp_mode = 1
+script = ExtResource("1_oqihp")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_dincp")
+
+[node name="Sprite2D" type="Sprite2D" parent="CollisionShape2D"]
+position = Vector2(4.76837e-07, 4.76837e-07)
+scale = Vector2(0.16, 0.16)
+texture = ExtResource("1_3gp8e")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[connection signal="mouse_entered" from="." to="." method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="." to="." method="_on_mouse_exited"]
